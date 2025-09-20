@@ -1,0 +1,45 @@
+package net.alephdev.lab1.controller;
+
+import net.alephdev.lab1.dto.DataDto;
+import net.alephdev.lab1.model.Data;
+import net.alephdev.lab1.repository.DataRepository;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.HtmlUtils;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@RestController
+@RequestMapping("/api/admin")
+public class AdminController {
+
+    private final DataRepository dataRepository;
+
+    public AdminController(DataRepository dataRepository) {
+        this.dataRepository = dataRepository;
+    }
+
+    @GetMapping("/data")
+    public List<DataDto> getAdminData() {
+        return dataRepository.findAll().stream()
+                .map(this::sanitizeData)
+                .collect(Collectors.toList());
+    }
+
+    @PostMapping("/data")
+    public Data createAdminData(@RequestBody DataDto dataDto) {
+        String sanitizedContent = HtmlUtils.htmlEscape(dataDto.getContent());
+        Data data = new Data(sanitizedContent, true);
+        return dataRepository.save(data);
+    }
+
+    private DataDto sanitizeData(Data data) {
+        DataDto dto = new DataDto();
+        dto.setContent(HtmlUtils.htmlEscape(data.getContent()));
+        return dto;
+    }
+}
