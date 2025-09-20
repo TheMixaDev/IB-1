@@ -23,6 +23,9 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
 
+    - name: Generate Maven wrapper
+      run: mvn -B wrapper:wrapper
+
     - name: SpotBugs
       run: mvn -B verify --file pom.xml
 
