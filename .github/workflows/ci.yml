@@ -24,7 +24,7 @@ jobs:
       run: mvn -B verify --file pom.xml
 
     - name: Upload SpotBugs report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: spotbugs-report.xml
         path: target/spotbugsXml.xml
@@ -37,7 +37,7 @@ jobs:
         args: --all-projects
     
     - name: Upload Snyk report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: snyk-report.json
         path: target/snyk-report.json
