@@ -29,12 +29,13 @@ jobs:
         name: spotbugs-report.xml
         path: target/spotbugsXml.xml
 
-    - name: Snyk
-      uses: snyk/actions/maven@master
+    - name: Snyk setup
+      uses: snyk/actions/setup@master
+
+    - name: Snyk test
+      run: snyk test --all-projects --json-file-output=target/snyk-report.json
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      with:
-        args: --all-projects
     
     - name: Upload Snyk report
       uses: actions/upload-artifact@v4
