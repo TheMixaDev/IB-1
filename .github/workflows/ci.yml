@@ -33,7 +33,7 @@ jobs:
       uses: snyk/actions/setup@master
 
     - name: Snyk test
-      run: snyk test --all-projects --json-file-output=target/snyk-report.json
+      run: snyk test --maven --file=pom.xml --json-file-output=target/snyk-report.json
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
     
