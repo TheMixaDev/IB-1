@@ -31,10 +31,9 @@ public class DataController {
     }
 
     @PostMapping
-    public Data createData(@RequestBody DataDto dataDto) {
-        String sanitizedContent = HtmlUtils.htmlEscape(dataDto.getContent());
-        Data data = new Data(sanitizedContent, false);
-        return dataRepository.save(data);
+    public DataDto createData(@RequestBody DataDto dataDto) {
+        Data data = new Data(dataDto.getContent(), false);
+        return sanitizeData(dataRepository.save(data));
     }
 
     private DataDto sanitizeData(Data data) {

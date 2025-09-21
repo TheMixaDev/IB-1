@@ -31,10 +31,9 @@ public class AdminController {
     }
 
     @PostMapping("/data")
-    public Data createAdminData(@RequestBody DataDto dataDto) {
-        String sanitizedContent = HtmlUtils.htmlEscape(dataDto.getContent());
-        Data data = new Data(sanitizedContent, true);
-        return dataRepository.save(data);
+    public DataDto createAdminData(@RequestBody DataDto dataDto) {
+        Data data = new Data(dataDto.getContent(), true);
+        return sanitizeData(dataRepository.save(data));
     }
 
     private DataDto sanitizeData(Data data) {
